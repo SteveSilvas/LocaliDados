@@ -11,10 +11,6 @@ interface IProps {
 const TabSelectNavigator: React.FC<IProps> = ({
     onChangeTab
 }) => {
-    // const [tabSelect, setTabSelect] = useState<TabSelectType>({
-    //     label: "Selecione",
-    //     value: "",
-    // });
 
     let tabsDatas: TabSelect[] = [{
         label: 'Buscar Endereço',
@@ -26,13 +22,12 @@ const TabSelectNavigator: React.FC<IProps> = ({
     }];
 
     const onItemSelectHandler = (tab: TabSelect) => {
-        // setTabSelect(tab);
         onChangeTab(tab.value);
     }
 
     const renderTabs = (): JSX.Element[] => {
-        const itemsElements: JSX.Element[] = tabsDatas.map((tab: TabSelect) => {
-            return (<TabOption tab={tab} onItemSelect={onItemSelectHandler} />)
+        const itemsElements: JSX.Element[] = tabsDatas.map((tab: TabSelect, i:number) => {
+            return (<TabOption key={i} tab={tab} onItemSelect={onItemSelectHandler} />)
         });
 
         return itemsElements;

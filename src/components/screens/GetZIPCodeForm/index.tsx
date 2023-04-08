@@ -30,7 +30,7 @@ const GetZIPCodeForm: React.FC<GetZIPCodeProps> = ({ isVisible }) => {
         const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
             setKeyboardOpen(false);
         });
-    },[]);
+    }, []);
 
     useEffect(() => {
         GetStates()
@@ -43,9 +43,9 @@ const GetZIPCodeForm: React.FC<GetZIPCodeProps> = ({ isVisible }) => {
     }, []);
 
 
-    useEffect(()=>{
-        if(keyboardOpen){setShowResult(false)}
-    },[keyboardOpen]);
+    useEffect(() => {
+        if (keyboardOpen) { setShowResult(false) }
+    }, [keyboardOpen]);
 
 
     useEffect(() => {
@@ -74,24 +74,36 @@ const GetZIPCodeForm: React.FC<GetZIPCodeProps> = ({ isVisible }) => {
         if (checkFields()) {
             Keyboard.dismiss();
 
-            let adress: Adress = {
+            const adress: Adress = {
                 logradouro: street,
                 localidade: city,
                 uf: stateSelected?.sigla ?? ""
             };
 
             GetZIPCodeService(adress)
-                .then((result) => {
-                    setAdress(result);
-                    console.log(adress)
+                .then((res) => {
+                    const [result] = res;
+                    const adressResult: Adress = {
+                        logradouro: result.logradouro,
+                        complemento: result.complemento,
+                        bairro: result.bairro,
+                        localidade: result.localidade,
+                        cep: result.cep,
+                        uf: result.uf,
+                        ddd: result.ddd,
+                        gia: result.gia,
+                        ibge: result.ibge
+                    };
+
+                    setAdress(adressResult);
                 })
                 .catch((error) => {
                     console.error(error);
                 });
         }
     }
+
     const checkFields = (): boolean => {
-        console.log(city)
         if (city == "") {
             Alert.alert("Preencha a Cidade");
             return false;
@@ -115,7 +127,7 @@ const GetZIPCodeForm: React.FC<GetZIPCodeProps> = ({ isVisible }) => {
                 <FieldForm label="Rua" onChange={changeStreetHandler} />
                 <FieldForm label="Cidade" onChange={changeCityHandler} />
 
-                <View >
+                <View style={{ zIndex: 999 }}>
                     <Text style={styles.label}>UF:</Text>
                     <Select data={states} onChange={changeStateSelectedHandler} />
                 </View>
@@ -161,8 +173,8 @@ const styles = StyleSheet.create({
         width: 300,
         padding: 4
     },
-    buttonSection:{
-        alignItems:"center",
+    buttonSection: {
+        alignItems: "center",
         marginTop: 10
     },
     buttonDisabled: {
@@ -184,7 +196,7 @@ const styles = StyleSheet.create({
     buttonText: {
         fontWeight: "bold",
         color: Colors.primary4,
-        fontSize:20
+        fontSize: 20
     },
     resultContainer: {
         width: "100%",

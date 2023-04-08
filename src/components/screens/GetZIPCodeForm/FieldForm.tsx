@@ -7,9 +7,11 @@ interface FieldProps {
 }
 
 const FieldForm: React.FC<FieldProps> = ({ label, onChange }) => {
-    const onChangeHandler = (value:string):void=>{
+
+    const onChangeHandler = (value: string): void => {
         onChange(value);
     }
+
     return (
         <View style={styles.field}>
             <Text style={styles.label}>{label}:</Text>

@@ -1,5 +1,5 @@
 import { StyleSheet, KeyboardAvoidingView, Keyboard, View, Text, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Adress } from '../../../@Types/Adress';
 import ItemResult from '../ItemResult';
 
@@ -8,12 +8,12 @@ interface AdressResultProps {
     adress: Adress | null;
     onClose: () => void;
 }
+
 const AdressResult: React.FC<AdressResultProps> = ({
     isVisible,
     adress,
     onClose
 }) => {
-
 
     const onCloseAdressResult = (): void => {
         onClose();
@@ -51,7 +51,6 @@ const AdressResult: React.FC<AdressResultProps> = ({
 const styles = StyleSheet.create({
     resultContainer: {
         width: "100%",
-        // alignItems: "center",
         padding: 10,
         margin: 20,
         borderWidth: 1,

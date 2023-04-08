@@ -44,14 +44,18 @@ const Select: React.FC<SelectProps> = ({ data, onChange }) => {
                     <OptionSelect key={state.id} state={state} onItemSelect={handleItemSelect} />
                 );
             });
-            return <ScrollView
+            return <View
                 style={{
-                    height: 80,
-                    backgroundColor: Colors.primary2,
-                    borderWidth: 1
+                    height: 200,
+                    backgroundColor: Colors.white,
+                    borderWidth: 1,
+                    paddingHorizontal: 5,
+                    zIndex: 2
                 }}>
-                {elements}
-            </ScrollView>;
+                <ScrollView>
+                    {elements}
+                </ScrollView>
+            </View>;
         }
         return null;
     };

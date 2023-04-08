@@ -8,12 +8,10 @@ const ThemedButton = () => {
 
     useEffect(() => {
         setTheme(isEnabled ? 'light' : 'dark');
-        console.log('toggle ' + theme);
     }, [isEnabled]);
 
     const toggleSwitch = () => {
         setIsEnabled(!isEnabled);
-        console.log('isEnabled:', isEnabled);
     };
 
     return (
