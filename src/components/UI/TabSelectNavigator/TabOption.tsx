@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
-import Colors from '../../../@Utils/colors';
+import Colors, { getColors } from '../../../@Utils/colors';
 import { TabSelect } from '../../../@Types/TabSelect';
 
 
@@ -12,6 +12,7 @@ const TabOption: React.FC<TabOptionProps> = ({
     tab,
     onItemSelect
 }) => {
+    const colors = getColors();
     const pressMe = (): void => {
         onItemSelect(tab)
     }
@@ -19,7 +20,7 @@ const TabOption: React.FC<TabOptionProps> = ({
     return (
         <TouchableOpacity style={{ padding: 10}}
             onPress={pressMe}>
-            <Text style={{color:Colors.white, fontWeight:"bold", fontSize:20}}>{tab.label}</Text>
+            <Text style={{color:colors.font, fontWeight:"bold", fontSize:20}}>{tab.label}</Text>
         </TouchableOpacity>
     )
 }

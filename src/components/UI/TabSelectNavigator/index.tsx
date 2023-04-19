@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import TabOption from "./TabOption";
-import Colors from "../../../@Utils/colors";
+import { getColors } from "../../../@Utils/colors";
 import { TabSelect } from "../../../@Types/TabSelect";
 
 interface IProps {
@@ -11,6 +11,7 @@ interface IProps {
 const TabSelectNavigator: React.FC<IProps> = ({
     onChangeTab
 }) => {
+    const colorsMutables = getColors();
 
     let tabsDatas: TabSelect[] = [{
         label: 'Buscar Endereço',
@@ -26,7 +27,7 @@ const TabSelectNavigator: React.FC<IProps> = ({
     }
 
     const renderTabs = (): JSX.Element[] => {
-        const itemsElements: JSX.Element[] = tabsDatas.map((tab: TabSelect, i:number) => {
+        const itemsElements: JSX.Element[] = tabsDatas.map((tab: TabSelect, i: number) => {
             return (<TabOption key={i} tab={tab} onItemSelect={onItemSelectHandler} />)
         });
 
@@ -34,11 +35,10 @@ const TabSelectNavigator: React.FC<IProps> = ({
     }
 
     const SelectInput = (
-        <View style={styles.container}>
-                {renderTabs()}
+        <View style={[styles.container, { backgroundColor: colorsMutables.primary1 }]}>
+            {renderTabs()}
         </View>
     );
-
 
     return SelectInput;
 };
@@ -48,8 +48,7 @@ const styles = StyleSheet.create({
         width: "100%",
         display: "flex",
         flexDirection: "row",
-        justifyContent :"center",
-        backgroundColor: Colors.primary4
+        justifyContent: "center",
     },
 });
 

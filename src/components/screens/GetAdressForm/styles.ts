@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     input: {
-        borderColor: Colors.primary1,
         borderWidth: 1,
         borderRadius: 6,
         padding: 5,
@@ -38,16 +37,16 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     buttonDisabled: {
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.lightColors.primary3,
         borderWidth: 1,
-        borderColor: Colors.primary1,
+        borderColor: Colors.lightColors.primary1,
         padding: 6,
         borderRadius: 6,
         width: 100,
         alignItems: "center"
     },
     buttonContainer: {
-        backgroundColor: Colors.primary0,
+        backgroundColor: Colors.lightColors.primary0,
         padding: 6,
         borderRadius: 6,
         width: 100,
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontWeight: "bold",
-        color: Colors.primary4,
+        color: Colors.lightColors.primary4,
         fontSize:20
     },
     resultContainer: {
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
-        borderBottomColor: Colors.primary0,
+        borderBottomColor: Colors.lightColors.primary0,
         backgroundColor: "white",
         paddingHorizontal: 10
     }

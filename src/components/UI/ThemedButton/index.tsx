@@ -1,10 +1,11 @@
-import { View, Text, Switch } from 'react-native';
-import React, { useState, useContext, useEffect } from 'react';
-import { ThemeContext } from '../../../Context/ThemeContext';
+import { View, Switch } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { useAtom } from 'jotai';
+import { themeAtom } from '../../../Context/ThemeContext';
 
 const ThemedButton = () => {
     const [isEnabled, setIsEnabled] = useState<boolean>(false);
-    const { theme, setTheme } = useContext(ThemeContext);
+    const [theme, setTheme] = useAtom(themeAtom);
 
     useEffect(() => {
         setTheme(isEnabled ? 'light' : 'dark');
@@ -15,11 +16,14 @@ const ThemedButton = () => {
     };
 
     return (
-        <View>
-            <Text style={{ color: theme === 'light' ? 'white' : 'black' }}>ThemedButton</Text>
+        <View style={{
+            height: 20,
+            width: 30,
+            justifyContent: "center",
+        }}>
             <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                trackColor={{ false: 'gray', true: '#c3c3c3' }}
+                thumbColor={isEnabled ? 'black' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
                 value={isEnabled}

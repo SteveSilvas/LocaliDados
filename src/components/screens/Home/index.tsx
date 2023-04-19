@@ -2,22 +2,29 @@ import { View } from 'react-native'
 import React, { useState } from 'react';
 import GetAdressForm from '../GetAdressForm';
 import GetZIPCodeForm from '../GetZIPCodeForm';
-import Colors from '../../../@Utils/colors';
+import Colors, { getColors } from '../../../@Utils/colors';
 import TabSelectNavigator from '../../UI/TabSelectNavigator';
+import styles from './styles';
 
 const Home = () => {
     const [tabVisible, setabVisible] = useState<string>('getAdress');
+    const colors = getColors();
 
     const onChangeTabHandler = (tab: string): void => {
         setabVisible(tab);
     }
 
     return (
-        <View style={{flex:1, flexDirection:"column-reverse", justifyContent:"space-between", backgroundColor: Colors.primary0}}>
-            <View style={{backgroundColor:"white"}}>
+        <View style={[styles.root, { backgroundColor: colors.background }]}>
+            <View style={{ backgroundColor: colors.primary2 }}>
                 <TabSelectNavigator onChangeTab={onChangeTabHandler} />
             </View>
-            <View style={{backgroundColor:"white", flex:1, borderWidth:1, borderColor:Colors.primary0, borderRadius:6,padding:10, margin:10}}>
+            <View style={[styles.content,
+                {
+                    backgroundColor: colors.background,
+                    borderColor: Colors.lightColors.primary0
+                }
+            ]}>
                 <GetAdressForm isVisible={tabVisible == 'getAdress'} />
                 <GetZIPCodeForm isVisible={tabVisible == 'getZIPCode'} />
             </View>

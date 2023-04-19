@@ -1,20 +1,15 @@
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Home from './src/components/screens/Home';
 import Toolbar from './src/components/UI/Toolbar';
-import { ThemeContext } from './src/Context/ThemeContext';
-
 
 export default function App() {
-    const {theme, setTheme} = useContext(ThemeContext);
-    
+
     return (
         <View style={styles.container}>
-            <ThemeContext.Provider value={{theme, setTheme}}>
-                <Toolbar />
-                <Home />
-            </ThemeContext.Provider>
+            <Toolbar />
+            <Home />
         </View>
     );
 }
