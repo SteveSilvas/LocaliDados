@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
-        borderBottomColor: Colors.primary0,
+        borderBottomColor: Colors.lightColors.primary0,
         backgroundColor: "white",
         paddingHorizontal: 10
     }

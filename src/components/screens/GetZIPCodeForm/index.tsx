@@ -1,14 +1,15 @@
-import { StyleSheet, View, Text, TouchableOpacity, Alert, Keyboard } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import FieldForm from './FieldForm';
-import GetStates from '../../../Services/GetStates';
-import { State } from '../../../@Types/State';
-import Select from '../../UI/Select';
-import GetZIPCodeService from '../../../Services/GetZIPCodeService';
+import React, { useEffect, useState } from 'react';
+import { Alert, Keyboard, Text, View } from 'react-native';
 import { Adress } from '../../../@Types/Adress';
-import Colors from "../../../@Utils/colors";
+import { State } from '../../../@Types/State';
+import { getColors } from "../../../@Utils/colors";
+import GetStates from '../../../Services/GetStates';
+import GetZIPCodeService from '../../../Services/GetZIPCodeService';
 import AdressResult from '../../UI/AdressResult';
-
+import Button from '../../UI/Button';
+import Select from '../../UI/Select';
+import FieldForm from './FieldForm';
+import styles from "./styles";
 interface GetZIPCodeProps {
     isVisible: boolean
 }
@@ -21,6 +22,7 @@ const GetZIPCodeForm: React.FC<GetZIPCodeProps> = ({ isVisible }) => {
     const [adress, setAdress] = useState<Adress | null>(null);
     const [showResult, setShowResult] = useState<boolean>(false);
     const [keyboardOpen, setKeyboardOpen] = useState(false);
+    const colorsMutables = getColors();
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -49,6 +51,7 @@ const GetZIPCodeForm: React.FC<GetZIPCodeProps> = ({ isVisible }) => {
 
 
     useEffect(() => {
+        console.warn('mudou o show result para', showResult)
         if (adress) {
             setShowResult(true);
         }
@@ -70,46 +73,26 @@ const GetZIPCodeForm: React.FC<GetZIPCodeProps> = ({ isVisible }) => {
         setShowResult(!showResult);
     }
 
-    const onSearchCep = (): void => {
-        if (checkFields()) {
-            Keyboard.dismiss();
+    const onSearchCep = async () => {
+        if (!checkFields()) return;
 
-            const adress: Adress = {
-                logradouro: street,
-                localidade: city,
-                uf: stateSelected?.sigla ?? ""
-            };
+        Keyboard.dismiss();
 
-            GetZIPCodeService(adress)
-                .then((res) => {
-                    const [result] = res;
-                    const adressResult: Adress = {
-                        logradouro: result.logradouro,
-                        complemento: result.complemento,
-                        bairro: result.bairro,
-                        localidade: result.localidade,
-                        cep: result.cep,
-                        uf: result.uf,
-                        ddd: result.ddd,
-                        gia: result.gia,
-                        ibge: result.ibge
-                    };
+        const adressResult:Adress | null = await GetZIPCodeService(buildAdress());
+        // const adressResult: Adress = buildAdressResult(result)
 
-                    setAdress(adressResult);
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        }
+        setAdress(adressResult);
+        console.error(adress)
     }
 
     const checkFields = (): boolean => {
-        if (city == "") {
-            Alert.alert("Preencha a Cidade");
-            return false;
-        }
         if (street == "") {
             Alert.alert("Preencha a Rua");
+            return false;
+        }
+
+        if (city == "") {
+            Alert.alert("Preencha a Cidade");
             return false;
         }
 
@@ -120,24 +103,49 @@ const GetZIPCodeForm: React.FC<GetZIPCodeProps> = ({ isVisible }) => {
         return true;
     }
 
+    const buildAdress = (): Adress => {
+        let adress: Adress = {
+            logradouro: street,
+            localidade: city,
+            uf: stateSelected?.sigla ?? ""
+        };
+        console.warn(adress)
+        return adress;
+    }
+
+    const buildAdressResult = (result: any): Adress => {
+        const adressResult: Adress = {
+            logradouro: result.logradouro,
+            complemento: result.complemento,
+            bairro: result.bairro,
+            localidade: result.localidade,
+            cep: result.cep,
+            uf: result.uf,
+            ddd: result.ddd,
+            gia: result.gia,
+            ibge: result.ibge
+        };
+        return adressResult;
+    }
+
     return isVisible ? (
-        <View style={styles.root}>
-            <Text style={styles.title}>Buscar CEP</Text>
+        <View style={[styles.root, { backgroundColor: colorsMutables.background }]}>
+            <Text style={[styles.title, { color: colorsMutables.font }]}>Buscar CEP</Text>
             <View style={styles.form}>
                 <FieldForm label="Rua" onChange={changeStreetHandler} />
                 <FieldForm label="Cidade" onChange={changeCityHandler} />
 
-                <View style={{ zIndex: 999 }}>
-                    <Text style={styles.label}>UF:</Text>
+                <View style={{ zIndex: 999, height: "55%" }}>
+                    <Text style={[styles.label, { color: colorsMutables.font }]}>UF:</Text>
                     <Select data={states} onChange={changeStateSelectedHandler} />
                 </View>
 
                 <View style={styles.buttonSection}>
-                    <TouchableOpacity
-                        style={adress == null ? styles.buttonDisabled : styles.buttonContainer}
-                        onPress={onSearchCep}>
-                        <Text>Buscar</Text>
-                    </TouchableOpacity>
+                    <Button
+                        text="Buscar"
+                        onClick={onSearchCep}
+                        disabled={false}
+                    />
                 </View>
             </View>
             <AdressResult adress={adress} isVisible={showResult} onClose={toggleShowResult} />
@@ -146,73 +154,4 @@ const GetZIPCodeForm: React.FC<GetZIPCodeProps> = ({ isVisible }) => {
     ) : null;
 }
 
-const styles = StyleSheet.create({
-    root: {
-        backgroundColor: "white",
-        width: "100%",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    title: {
-        fontSize: 20,
-        textAlign: "center",
-        padding: 10
-    },
-    form: {
-        borderWidth: 1,
-        borderColor: Colors.primary0,
-        padding: 10
-    },
-    label: {
-        fontWeight: "bold"
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: "#c3c3c3",
-        borderRadius: 6,
-        width: 300,
-        padding: 4
-    },
-    buttonSection: {
-        alignItems: "center",
-        marginTop: 10
-    },
-    buttonDisabled: {
-        backgroundColor: Colors.white,
-        borderWidth: 1,
-        borderColor: Colors.primary1,
-        padding: 6,
-        borderRadius: 6,
-        width: 100,
-        alignItems: "center"
-    },
-    buttonContainer: {
-        backgroundColor: Colors.primary0,
-        padding: 6,
-        borderRadius: 6,
-        width: 100,
-        alignItems: "center"
-    },
-    buttonText: {
-        fontWeight: "bold",
-        color: Colors.primary4,
-        fontSize: 20
-    },
-    resultContainer: {
-        width: "100%",
-        alignItems: "center",
-        padding: 100,
-        margin: 20,
-        borderWidth: 1,
-        borderRadius: 6
-    },
-    resultRow: {
-        width: "100%",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        borderBottomColor: Colors.primary0,
-        backgroundColor: "white",
-        paddingHorizontal: 10
-    }
-})
 export default GetZIPCodeForm;

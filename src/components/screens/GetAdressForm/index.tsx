@@ -7,6 +7,7 @@ import AdressResult from '../../UI/AdressResult';
 import { addZIPMask } from '../../../@Utils/addZipMask';
 import colors, { getColors } from '../../../@Utils/colors';
 import { getNumbers } from '../../../@Utils/getNumbers';
+import Button from '../../UI/Button';
 interface GetAdressProps {
     isVisible: boolean;
 }
@@ -84,16 +85,16 @@ const GetAdressForm: React.FC<GetAdressProps> = ({ isVisible }) => {
                     <TouchableOpacity
                         style={styles.iconContainer}
                         onPress={clearInput}>
-                        <Text style={[styles.iconText, {color: colorsMutable.font}]}>X</Text>
+                        <Text style={[styles.iconText, { color: colorsMutable.font }]}>X</Text>
                     </TouchableOpacity>
 
                 </View>
-                <TouchableOpacity
-                    style={zipCode.length != 9 ? styles.buttonDisabled : styles.buttonContainer}
-                    onPress={onSearchAdress}
-                    disabled={zipCode.length != 9}>
-                    <Text style={styles.buttonText}>Buscar</Text>
-                </TouchableOpacity>
+
+                <Button
+                    text="Buscar"
+                    onClick={onSearchAdress}
+                    disabled={zipCode.length != 9}
+                />
             </View>
 
             <AdressResult adress={adress} isVisible={showResult} onClose={toggleShowResult} />

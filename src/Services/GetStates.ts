@@ -11,6 +11,7 @@ const GetStates = async ()=>{
 
         const result = await response.json();
         return result;
+        
     } catch (error) {
         console.error(error);
         throw error;

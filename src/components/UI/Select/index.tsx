@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import Colors from '../../../@Utils/colors';
+import Colors, { getColors } from '../../../@Utils/colors';
 import { State } from '../../../@Types/State';
 import OptionSelect from './optionSelect';
 
@@ -12,7 +12,7 @@ interface SelectProps {
 const Select: React.FC<SelectProps> = ({ data, onChange }) => {
     const [selectedItem, setSelectedItem] = useState<State | null>(null);
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
-
+    const colorsM = getColors();
     const handleToggleCollapse = (): void => {
         setIsCollapsed(!isCollapsed);
     };
@@ -26,11 +26,11 @@ const Select: React.FC<SelectProps> = ({ data, onChange }) => {
     const renderSelectedValue = (): JSX.Element | null => {
         if (selectedItem) {
             return <Text style={{
-                color: "black",
+                color: colorsM.font,
                 borderWidth: 1,
-                borderColor: "black",
+                borderColor: Colors.lightColors.primary0,
                 borderRadius: 6,
-                padding: 5,
+                padding: 10,
                 width: 300
             }}>{selectedItem.nome}</Text>;
         }
@@ -46,10 +46,11 @@ const Select: React.FC<SelectProps> = ({ data, onChange }) => {
             });
             return <View
                 style={{
-                    height: 200,
-                    backgroundColor: Colors.white,
+                    height: 150,
                     borderWidth: 1,
-                    paddingHorizontal: 5,
+                    borderColor: Colors.lightColors.primary0,
+                    borderRadius: 6,
+                    marginTop: 5,
                     zIndex: 2
                 }}>
                 <ScrollView>
@@ -65,11 +66,11 @@ const Select: React.FC<SelectProps> = ({ data, onChange }) => {
             <TouchableOpacity onPress={handleToggleCollapse}>
                 {renderSelectedValue() ||
                     <Text style={{
-                        color: "black",
+                        color: colorsM.font,
                         borderWidth: 1,
-                        borderColor: "black",
+                        borderColor: Colors.lightColors.primary0,
                         borderRadius: 6,
-                        padding: 5,
+                        padding: 10,
                         width: 300
                     }}>Selecione...</Text>}
             </TouchableOpacity>

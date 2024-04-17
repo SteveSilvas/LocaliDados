@@ -1,12 +1,13 @@
 import { StyleSheet, View, Text, TextInput } from 'react-native';
 import React, { useState, useEffect } from 'react';
-
+import colors, { getColors } from '../../../@Utils/colors';
 interface FieldProps {
     label: string,
     onChange: (value: string) => void
 }
 
 const FieldForm: React.FC<FieldProps> = ({ label, onChange }) => {
+    const colorsMutables = getColors();
 
     const onChangeHandler = (value: string): void => {
         onChange(value);
@@ -14,9 +15,9 @@ const FieldForm: React.FC<FieldProps> = ({ label, onChange }) => {
 
     return (
         <View style={styles.field}>
-            <Text style={styles.label}>{label}:</Text>
+            <Text style={[styles.label, {color: colorsMutables.font}]}>{label}:</Text>
             <TextInput
-                style={styles.input}
+                style={[styles.input, {color:colorsMutables.font}]}
                 keyboardType="default"
                 placeholder={label}
                 onChangeText={onChangeHandler}

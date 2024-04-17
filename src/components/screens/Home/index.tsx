@@ -1,9 +1,9 @@
-import { View } from 'react-native'
 import React, { useState } from 'react';
-import GetAdressForm from '../GetAdressForm';
-import GetZIPCodeForm from '../GetZIPCodeForm';
+import { View } from 'react-native';
 import Colors, { getColors } from '../../../@Utils/colors';
 import TabSelectNavigator from '../../UI/TabSelectNavigator';
+import GetAdressForm from '../GetAdressForm';
+import GetZIPCodeForm from '../GetZIPCodeForm';
 import styles from './styles';
 
 const Home = () => {

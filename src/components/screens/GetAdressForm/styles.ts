@@ -15,17 +15,21 @@ const styles = StyleSheet.create({
     },
     form:{
         alignItems:"center",
+        justifyContent:"center",
+        width:"100%",
+        padding: 10,
     },
     rowInput: {
         display: "flex",
         flexDirection: "row",
+        width: "100%",
+        marginBottom:15
     },
     input: {
         borderWidth: 1,
         borderRadius: 6,
         padding: 5,
-        margin: 5,
-        width: "80%"
+        width: "100%"
     },
     iconContainer: {
         marginLeft: -25,
